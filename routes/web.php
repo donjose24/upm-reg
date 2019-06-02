@@ -11,7 +11,7 @@
 |
 */
 
-Route::get('/', function () {
+Route::get('/register', function () {
     return view('welcome');
 });
 

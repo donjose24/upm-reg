@@ -21,12 +21,13 @@ class User extends Authenticatable
         'password',
         'first_name',
         'last_name',
-        'mobile_number',
+        'contact_number',
         'birthdate',
         'is_enrolled',
         'occupation',
         'facebook_profile',
         'year',
+        'course',
     ];
 
     /**

@@ -16,13 +16,14 @@ class AdditionalFieldsForUsersTable extends Migration
         Schema::table('users', function ($table) {
             $table->string('first_name');
             $table->string('last_name');
-            $table->string('mobile_number');
+            $table->string('contact_number');
             $table->string('facebook_profile');
             $table->tinyInteger('is_enrolled')->default(0);
-            $table->string('course');
+            $table->string('course')->nullable()->default('');
             $table->string('occupation');
-            $table->integer('year');
+            $table->integer('year')->default(0)->nullable();
             $table->date('birthdate');
+            $table->dropColumn('name');
         });
     }
 
@@ -36,13 +37,14 @@ class AdditionalFieldsForUsersTable extends Migration
         Schema::table('users', function ($table) {
             $table->dropColumn('first_name');
             $table->dropColumn('last_name');
-            $table->dropColumn('mobile_number');
+            $table->dropColumn('contact_number');
             $table->dropColumn('facebook_profile');
             $table->dropColumn('is_enrolled');
             $table->dropColumn('course');
             $table->dropColumn('occupation');
             $table->dropColumn('year');
             $table->dropColumn('birthdate');
+            $table->string('name');
         });
     }
 }
