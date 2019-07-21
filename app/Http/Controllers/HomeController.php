@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use Session;
 use Auth;
+use App\Announcement;
 
 class HomeController extends Controller
 {
@@ -27,7 +28,8 @@ class HomeController extends Controller
     public function index()
     {
         if (Auth::user()->role === "normal") {
-            return view('home');
+            $announcements = Announcement::orderBy('created_at', 'DESC')->limit(5)->get();
+            return view('home', compact('announcements'));
         }
 
         return redirect('/admin/home');
@@ -41,22 +43,23 @@ class HomeController extends Controller
     {
         $user = Auth::user();
 
-        $client = new \GuzzleHttp\Client(['base_uri' => 'https://api.imgur.com/', 'headers' => [
-            'Authorization' => 'Client-ID ' . env('IMGUR_CLIENT_ID', ''),
-            'Content-type' => 'application/json',
-        ]]);
-
-        $response = $client->post('/3/image', [
-            'json' => [
-                'image' => base64_encode(file_get_contents($request->file('med_cert'))),
-            ]
-        ]);
-
-        $response = json_decode($response->getBody()->getContents());
-        $user->med_cert = $response->data->link;
+        $medCert = $request->file('med_cert');
+        $contents = $medCert->openFile()->fread($medCert->getSize());
+        $user->med_cert_image = $contents;
+        $user->med_cert_status = 'pending';
         $user->save();
 
         Session::flash('success', 'Medical Certificate Successfuly Submitted');
         return redirect()->back();
+    }
+
+    public function getImage($id)
+    {
+        $user = App\User::find(1);
+
+        // Return the image in the response with the correct MIME type
+        return response()->make($user->med_cert_image, 200, array(
+            'Content-Type' => (new finfo(FILEINFO_MIME))->buffer($user->med_cert_image)
+        ));
     }
 }

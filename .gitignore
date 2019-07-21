@@ -10,3 +10,8 @@ Homestead.yaml
 npm-debug.log
 yarn-error.log
 *.swp
+/.vagrant
+after.sh
+Vagrantfile
+aliases
+Homestead.yaml

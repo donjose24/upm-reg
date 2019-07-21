@@ -17,10 +17,10 @@ class AdditionalFieldsForUsersTable extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('contact_number');
-            $table->string('facebook_profile')->default('');
+            $table->string('facebook_profile')->default('')->nullable();
             $table->tinyInteger('is_enrolled')->default(0);
             $table->string('course')->nullable()->default('');
-            $table->string('occupation')->default('');
+            $table->string('occupation')->default('')->nullable();
             $table->integer('year')->default(0)->nullable();
             $table->date('birthdate')->nullable();
             $table->dropColumn('name');

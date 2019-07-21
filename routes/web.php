@@ -11,15 +11,17 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index')->name('home');
 Route::post('/upload', 'HomeController@saveMedCert')->name('upload');
 
 Route::group(['prefix'=>'/admin'], function () {
-    Route::get('/home', 'AdminController@index');
+    Route::get('/home', 'AdminController@index')->name('home');
+    Route::resource('/users', 'Admin\UserController')->only(['index']);
+    Route::resource('/announcements', 'Admin\AnnouncementController')->only(['index', 'store']);
+    Route::get('/user/approve/{id}', 'Admin\UserController@accept');
+    Route::get('/user/reject/{id}', 'Admin\UserController@reject');
 });
+
+Route::get('/user/medcert/{id}', 'AssetController@serveImage');
