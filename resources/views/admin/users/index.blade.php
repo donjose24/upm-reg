@@ -28,6 +28,7 @@
                                 <th>Occupation</th>
                                 <th>Enrolled?</th>
                                 <th>Medcert Status</th>
+                                <th>Nickname</th>
                                 <th>Actions</th>
                             </thead>
                             <tbody>
@@ -40,6 +41,7 @@
                                         <td> {{ $user->occupation }}</td>
                                         <td> {{ $user->is_enrolled ? "Yes" : "No" }}</td>
                                         <td> {{ $user->med_cert_status }}</td>
+                                        <th> {{ $user->nick_name }} </th>
                                         <td>
                                             <a class="btn btn-success"href="/admin/user/approve/{{ $user->id }}">Approve</a>
                                             <a class="btn btn-danger" href="/admin/user/reject/{{$user->id}}">Reject</a>
