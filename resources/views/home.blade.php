@@ -26,7 +26,7 @@
                                     </form>
                                     <small><em>Click on your avatar to update</em></small>
                                 </div>
-                                <div class="form-group row mt-5">
+                                <div class="form-group row mt-2">
                                     <div class="col-md-6">
                                         First Name:
                                     </div>
@@ -80,35 +80,104 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-7">
-                <div class="card">
-                    <div class="card-header">Medical Certificate</div>
-                    <div class="card-body">
-                        @if (session('status'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('status') }}
+            <div class="col-md-7 mt-2">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">Medical Certificate</div>
+                            <div class="card-body">
+                                @if (session('status'))
+                                    <div class="alert alert-success" role="alert">
+                                        {{ session('status') }}
+                                    </div>
+                                @endif
+
+                                @if ( in_array(Auth::user()->med_cert_status, ['pending', '', 'rejected']) )
+                                    <h5>Medcert Status: {{Auth::user()->med_cert_status ? ucwords(Auth::user()->med_cert_status) : "Not yet submitted" }} </h5>
+
+                                    <div class="text-center">
+                                        @if (Auth::user()->med_cert_status != '')
+                                            <img src="/user/medcert/{{Auth::user()->id}}" class="med-cert"/>
+                                            <a href="/user/medcert/{{Auth::user()->id}}" target="_blank"> View full photo</a>
+                                        @endif
+                                        <p>Date Uploaded: {{ Auth::user()->med_cert_upload_date }}</p>
+                                    </div>
+                                    <form method="POST" action="{{ route('upload') }}" enctype=multipart/form-data class="update-form">
+                                        @csrf
+                                        <div class="form-group">
+                                            <input type="file" class="form-control-file" name="med_cert">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">
+                                            {{ __('Upload / Update') }}
+                                        </button>
+                                    </form>
+                                @endif
                             </div>
-                        @endif
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">Additional Information </div>
+                            <div class="card-body ice-form">
+                                <form method="POST" action="/user">
+                                    @csrf
+                                    <div class="form-group row">
+                                        <label for="ice_name" class="col-md-4 col-form-label text-md-left">{{ __('In case of emergency') }}</label>
+                                        <div class="col-md-6">
+                                            <input id="ice_name" type="text" class="form-control" name="ice_name" required placeholder="ex.) Juan Dela Cruz" value="{{ Auth::user()->ice_name }}">
+                                            <small><em>Who to contact in case of emergency </em></small>
+                                            @error('ice_name')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="ice_contact_number" class="col-md-4 col-form-label text-md-left">{{ __('Contact number') }}</label>
 
-                        @if ( in_array(Auth::user()->med_cert_status, ['pending', '', 'rejected']) )
-                            <h4>Medcert Status: <small>{{Auth::user()->med_cert_status ? Auth::user()->med_cert_status : "Not yet submitted" }} </small></h4>
+                                        <div class="col-md-6">
+                                            <input id="ice_contact_number" type="text" class="form-control" name="ice_contact_number" required placeholder="ex.) +63905694201" value="{{ Auth::user()->ice_contact_number }}">
+                                            <small><em>Your ICE's contact number </em></small>
+                                            @error('ice_contact_number')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="full_address" class="col-md-4 col-form-label text-md-left">{{ __('Full Address') }}</label>
+                                        <div class="col-md-6">
+                                            <textarea name="full_address" class="form-control">{{ Auth::user()->full_address }}</textarea>
+                                            <small><em>Your full address </em></small>
+                                            @error('full_address')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label for="join_reason" class="col-md-4 col-form-label text-md-left">{{ __('Why do you want to join UPM?') }}</label>
 
-                            @if (Auth::user()->med_cert_status != '')
-                                <img src="/user/medcert/{{Auth::user()->id}}" class="med-cert"/>
-                                <a href="/user/medcert/{{Auth::user()->id}}" target="_blank"> View full photo</a>
-                            @endif
-                            <br/>
-                            <br/>
-                            <form method="POST" action="{{ route('upload') }}" enctype=multipart/form-data class="update-form">
-                                @csrf
-                                <div class="form-group">
-                                    <input type="file" class="form-control-file" name="med_cert">
-                                </div>
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Upload / Update Medical Certificate') }}
-                                </button>
-                            </form>
-                        @endif
+                                        <div class="col-md-6">
+                                            <textarea name="join_reason" class="form-control">{{ Auth::user()->join_reason }}</textarea>
+                                            <small><em>Baket nga ba? </em></small>
+                                            @error('full_address')
+                                            <span class="invalid-feedback" role="alert">
+                                                <strong>{{ $message }}</strong>
+                                            </span>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                     <input type="hidden" name="_method" value="put" />
+                                    <button class="btn btn-success">Submit / Update</button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

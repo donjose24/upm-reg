@@ -31,6 +31,8 @@ class User extends Authenticatable
         'ice_contact_number',
         'full_address',
         'application_status',
+        'join_reason',
+        'med_cert_update_date',
     ];
 
     /**

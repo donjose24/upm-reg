@@ -22,6 +22,8 @@ class AdditionalColumnsForUsersTable extends Migration
             $table->string('avatar')->default('')->nullable();
             $table->string('full_address')->default('')->nullable();
             $table->string('application_status')->default('')->nullable();
+            $table->datetime('med_cert_upload_date')->nullable();
+            $table->string('join_reason');
         });
     }
 
@@ -41,6 +43,8 @@ class AdditionalColumnsForUsersTable extends Migration
             $table->dropColumn('avatar');
             $table->dropColumn('full_address');
             $table->dropColumn('application_status');
+            $table->dropColumn('med_cert_upload_date');
+            $table->dropColumn('join_reason');
         });
     }
 }

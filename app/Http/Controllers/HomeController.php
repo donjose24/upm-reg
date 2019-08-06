@@ -47,6 +47,7 @@ class HomeController extends Controller
         $contents = $medCert->openFile()->fread($medCert->getSize());
         $user->med_cert_image = $contents;
         $user->med_cert_status = 'pending';
+        $user->med_cert_upload_date = now();
         $user->save();
 
         Session::flash('success', 'Medical Certificate Successfuly Submitted');
