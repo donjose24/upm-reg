@@ -15,6 +15,7 @@ Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
 Route::post('/upload', 'HomeController@saveMedCert')->name('upload');
+Route::post('/avatar', 'AvatarController@store');
 
 Route::group(['prefix'=>'/admin'], function () {
     Route::get('/home', 'AdminController@index')->name('home');

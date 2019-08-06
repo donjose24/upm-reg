@@ -2,27 +2,87 @@
 
 @section('content')
     <div class="container">
+        @if (session()->has('success'))
+            <div class="alert alert-success">
+                {!! session()->get('success')!!}
+            </div>
+        @endif
         <div class="row justify-content-left">
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-header">Announcements</div>
-                    <div class="card-body">
-                        <ul>
-                            @foreach($announcements as $announcement)
-                                <li>{{ $announcement->description }}</li>
-                            @endforeach
-                        </ul>
+            <div class="col-md-5">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">Your Information</div>
+                            <div class="card-body">
+                                <div class="img-holder">
+                                    <form action="/avatar" method="POST" class="avatar-form" enctype="multipart/form-data">
+                                        @csrf
+                                        <input type="file" name="avatar" class="avatar-uploader">
+                                        @if (Auth::user()->avatar)
+                                            <img src="{{ Auth::user()->avatar }}" class="avatar rounded-circle">
+                                        @else
+                                            <img src="/default.png" class="avatar rounded-circle">
+                                        @endif
+                                    </form>
+                                    <small><em>Click on your avatar to update</em></small>
+                                </div>
+                                <div class="form-group row mt-5">
+                                    <div class="col-md-6">
+                                        First Name:
+                                    </div>
+                                    <div class="col-md-6">
+                                        <b>{{ Auth::user()->first_name }}</b>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-6">
+                                        Last Name:
+                                    </div>
+                                    <div class="col-md-6">
+                                        <b>{{ Auth::user()->last_name }}</b>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-6">
+                                        Email Address:
+                                    </div>
+                                    <div class="col-md-6">
+                                        <b>{{ Auth::user()->email }}</b>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-6">
+                                        Application Status:
+                                    </div>
+                                    <div class="col-md-6">
+                                        <b>{{ ucwords(Auth::user()->application_status) }}</b>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 mt-2">
+                        <div class="card">
+                            <div class="card-header">Announcements</div>
+                            <div class="card-body">
+                                <ul>
+                                    @if (count($announcements) == 0)
+                                        <h4>No announcements for now!</h4>
+                                    @endif
+                                    @foreach($announcements as $announcement)
+                                        <li>{{ $announcement->description }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-7">
                 <div class="card">
-                    <div class="card-header">Your information</div>
-                    @if (session()->has('success'))
-                        <div class="alert alert-success">
-                            {!! session()->get('success')!!}
-                        </div>
-                    @endif
+                    <div class="card-header">Medical Certificate</div>
                     <div class="card-body">
                         @if (session('status'))
                             <div class="alert alert-success" role="alert">
@@ -31,7 +91,7 @@
                         @endif
 
                         @if ( in_array(Auth::user()->med_cert_status, ['pending', '', 'rejected']) )
-                            <h4>Medcert Status: {{Auth::user()->med_cert_status}}</h4>
+                            <h4>Medcert Status: <small>{{Auth::user()->med_cert_status ? Auth::user()->med_cert_status : "Not yet submitted" }} </small></h4>
 
                             @if (Auth::user()->med_cert_status != '')
                                 <img src="/user/medcert/{{Auth::user()->id}}" class="med-cert"/>
@@ -49,91 +109,6 @@
                                 </button>
                             </form>
                         @endif
-                        <br/>
-                        <br/>
-                        <form method="PUT" action="{{ route('register') }}">
-                            <legend>Applicant's Information</legend>
-                            <fieldset>
-                                @csrf
-                                <div class="form-group row">
-                                    <label for="first_name" class="col-md-4 col-form-label text-md-left">{{ __('First Name') }}</label>
-                                    <div class="col-md-6">
-                                        <input id="first_name" type="text" class="form-control @error('first_name') is-invalid @enderror" name="first_name" value="{{ Auth::user()->first_name }}" required autocomplete="first_name" autofocus readonly>
-                                        @error('first_name')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label for="last_name" class="col-md-4 col-form-label text-md-left">{{ __('Last Name') }}</label>
-                                    <div class="col-md-6">
-                                        <input id="last_name" type="text" class="form-control @error('last_name') is-invalid @enderror" name="last_name" value="{{ Auth::user()->last_name }}" required autocomplete="last_name" autofocus readonly>
-                                        @error('last_name')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label for="birthdate" class="col-md-4 col-form-label text-md-left">{{ __('Year Level') }}</label>
-
-                                    <div class="col-md-6">
-                                        <input id="birthdate" type="date" class="form-control @error('birthdate') is-invalid @enderror" name="birthdate" value="{{ Auth::user()->birthdate }}" required autocomplete="birthdate" readonly>
-                                        @error('birthdate')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label for="contact_number" class="col-md-4 col-form-label text-md-left">{{ __('Contact Number') }}</label>
-                                    <div class="col-md-6">
-                                        <input id="contact_number" type="text" class="form-control @error('contact_number') is-invalid @enderror" name="contact_number" value="{{ Auth::user()->contact_number }}" required autocomplete="contact_number" autofocus readonly>
-
-                                        @error('contact_number')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label for="facebook_profile" class="col-md-4 col-form-label text-md-left">{{ __('Facebook Profile Link') }}</label>
-                                    <div class="col-md-6">
-                                        <input id="facebook_profile" type="text" class="form-control @error('facebook_profile') is-invalid @enderror" name="facebook_profile" value="{{ Auth::user()->facebook_profile }}" autocomplete="facebook_profile" autofocus readonly>
-
-                                        @error('facebook_profile')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                    </div>
-                                </div>
-
-                                <div class="form-group row">
-                                    <label for="email" class="col-md-4 col-form-label text-md-left">{{ __('E-Mail Address') }}</label>
-
-                                    <div class="col-md-6">
-                                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ Auth::user()->email }}" required autocomplete="email" readonly>
-
-                                        @error('email')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                    </div>
-                                </div>
-                            </fieldset>
-                        </form>
-
                     </div>
                 </div>
             </div>

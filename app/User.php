@@ -25,10 +25,12 @@ class User extends Authenticatable
         'birthdate',
         'is_enrolled',
         'occupation',
-        'facebook_profile',
-        'year',
         'course',
-        'role'
+        'role',
+        'ice_name',
+        'ice_contact_number',
+        'full_address',
+        'application_status',
     ];
 
     /**

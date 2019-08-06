@@ -12,6 +12,14 @@ $(document).ready(function () {
     $('#is_student').change(function () {
         checkSelectedOption();
     })
+
+    $('.avatar').click(() => {
+        $('.avatar-uploader').click();
+    });
+
+    $(".avatar-uploader").on('change', function(){
+        $('.avatar-form').submit();
+    });
 })
 
 function checkSelectedOption()

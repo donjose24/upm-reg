@@ -62,18 +62,6 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label for="facebook_profile" class="col-md-4 col-form-label text-md-right">{{ __('Facebook Profile Link') }}</label>
-                            <div class="col-md-6">
-                                <input id="facebook_profile" type="text" class="form-control @error('facebook_profile') is-invalid @enderror" name="facebook_profile" value="{{ old('facebook_profile') }}" autocomplete="facebook_profile" autofocus>
-
-                                @error('facebook_profile')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
 
                         <div class="form-group row">
                             <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
@@ -120,18 +108,6 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row">
-                                <label for="year" class="col-md-4 col-form-label text-md-right">{{ __('Year Level') }}</label>
-
-                                <div class="col-md-6">
-                                    <input id="year" type="number" class="form-control @error('year') is-invalid @enderror" name="year" value="{{ old('year') }}" autocomplete="year">
-                                    @error('year')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
                         </div>
                         <div id="workingInfo">
                             <div class="form-group row">
@@ -175,7 +151,7 @@
                         <div class="form-group row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
-                                    {{ __('Register') }}
+                                    {{ __('Next >') }}
                                 </button>
                             </div>
                         </div>

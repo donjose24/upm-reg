@@ -19,3 +19,27 @@
     width:300px;
     display:block;
 }
+
+.avatar {
+    height: 150px;
+    width: 150px;
+    display: block;
+    margin: auto;
+}
+
+.avatar:hover {
+    cursor: pointer;
+}
+
+.img-holder {
+    text-align: center;
+}
+
+.btn-avatar {
+    background-color: white;
+    border: none;
+}
+
+.avatar-uploader {
+    display: none;
+}
