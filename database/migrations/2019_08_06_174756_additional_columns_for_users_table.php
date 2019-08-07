@@ -23,7 +23,7 @@ class AdditionalColumnsForUsersTable extends Migration
             $table->string('full_address')->default('')->nullable();
             $table->string('application_status')->default('')->nullable();
             $table->datetime('med_cert_upload_date')->nullable();
-            $table->string('join_reason');
+            $table->string('join_reason')->default('')->nullable();
         });
     }
 
