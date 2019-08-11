@@ -10682,3 +10682,7 @@ a.text-dark:focus {
   display: none;
 }
 
+.registration-container {
+  padding: 20px;
+}
+
