@@ -91,18 +91,18 @@
                                         {{ session('status') }}
                                     </div>
                                 @endif
-                                 <h5>Medcert Status: {{$user->med_cert_status ? ucwords($user->med_cert_status) : "Not yet submitted" }} </h5>
+                                 <h5>Medcert Status: {{Auth::user()->med_cert_status ? ucwords(Auth::user()->med_cert_status) : "Not yet submitted" }} </h5>
 
                                  <div class="text-center">
-                                      @if ($user->med_cert_status != '')
-                                          <img src="/user/medcert/{{$user->id}}" class="med-cert"/>
-                                          <a href="/user/medcert/{{$user->id}}" target="_blank"> View full photo</a>
+                                      @if (Auth::user()->med_cert_status != '')
+                                          <img src="/user/medcert/{{Auth::user()->id}}" class="med-cert"/>
+                                          <a href="/user/medcert/{{Auth::user()->id}}" target="_blank"> View full photo</a>
                                       @endif
 
 
-                                    @if ($user->med_cert_upload_date)
-                                        <p>Date Uploaded: {{ $user->med_cert_upload_date }}</p>
-                                    @endif
+                                        @if (Auth::user()->med_cert_upload_date)
+                                            <p>Date Uploaded: {{ Auth::user()->med_cert_upload_date }}</p>
+                                        @endif
                                     </div>
 
                                    <form method="POST" action="{{ route('upload') }}" enctype=multipart/form-data class="update-form">
@@ -114,7 +114,6 @@
                                             {{ __('Upload / Update') }}
                                         </button>
                                     </form>
-                                @endif
                             </div>
                         </div>
                     </div>
