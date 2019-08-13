@@ -91,18 +91,21 @@
                                         {{ session('status') }}
                                     </div>
                                 @endif
+                                 <h5>Medcert Status: {{$user->med_cert_status ? ucwords($user->med_cert_status) : "Not yet submitted" }} </h5>
 
-                                @if ( in_array(Auth::user()->med_cert_status, ['pending', '', 'rejected']) )
-                                    <h5>Medcert Status: {{Auth::user()->med_cert_status ? ucwords(Auth::user()->med_cert_status) : "Not yet submitted" }} </h5>
+                                 <div class="text-center">
+                                      @if ($user->med_cert_status != '')
+                                          <img src="/user/medcert/{{$user->id}}" class="med-cert"/>
+                                          <a href="/user/medcert/{{$user->id}}" target="_blank"> View full photo</a>
+                                      @endif
 
-                                    <div class="text-center">
-                                        @if (Auth::user()->med_cert_status != '')
-                                            <img src="/user/medcert/{{Auth::user()->id}}" class="med-cert"/>
-                                            <a href="/user/medcert/{{Auth::user()->id}}" target="_blank"> View full photo</a>
-                                        @endif
-                                        <p>Date Uploaded: {{ Auth::user()->med_cert_upload_date }}</p>
+
+                                    @if ($user->med_cert_upload_date)
+                                        <p>Date Uploaded: {{ $user->med_cert_upload_date }}</p>
+                                    @endif
                                     </div>
-                                    <form method="POST" action="{{ route('upload') }}" enctype=multipart/form-data class="update-form">
+
+                                   <form method="POST" action="{{ route('upload') }}" enctype=multipart/form-data class="update-form">
                                         @csrf
                                         <div class="form-group">
                                             <input type="file" class="form-control-file" name="med_cert">
