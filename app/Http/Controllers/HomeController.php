@@ -32,7 +32,6 @@ class HomeController extends Controller
             return view('home', compact('announcements'));
         }
 
-        Active::users('');
         return redirect('/admin/home');
     }
 
