@@ -32,6 +32,7 @@ class HomeController extends Controller
             return view('home', compact('announcements'));
         }
 
+        Active::users('');
         return redirect('/admin/home');
     }
 
@@ -56,7 +57,7 @@ class HomeController extends Controller
 
     public function getImage($id)
     {
-        $user = App\User::find(1);
+        $user = App\User::find($id);
 
         // Return the image in the response with the correct MIME type
         return response()->make($user->med_cert_image, 200, array(

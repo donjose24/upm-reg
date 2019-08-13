@@ -20,7 +20,7 @@ Route::put('/user/', 'UserController@update');
 
 Route::group(['prefix'=>'/admin'], function () {
     Route::get('/home', 'AdminController@index')->name('home');
-    Route::resource('/users', 'Admin\UserController')->only(['index']);
+    Route::resource('/users', 'Admin\UserController');
     Route::resource('/announcements', 'Admin\AnnouncementController')->only(['index', 'store']);
     Route::get('/user/approve/{id}', 'Admin\UserController@accept');
     Route::get('/user/reject/{id}', 'Admin\UserController@reject');

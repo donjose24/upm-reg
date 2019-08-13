@@ -1,57 +1,73 @@
 @extends('layouts.admin')
 
 @section('content')
+    @if (session()->has('flash_message'))
+        <div class="alert alert-success">
+            {!! session()->get('flash_message')!!}
+        </div>
+    @endif
+
     <div class="container">
-        <div class="row justify-content-center">
+        <div class="row">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">Users</div>
                     <div class="card-body">
-                        @if (session()->has('success'))
-                            <div class="alert alert-success">
-                                {!! session()->get('success')!!}
+                        <form method="GET" action="{{ url('/admin/users') }}" accept-class="form-inline" charset="UTF-8" role="search">
+                            <div class="form-group float-left mr-2">
+                                <label for="filter[application_status]">Application Status</label>
+                                <select class="form-control" name="filters[application_status]">
+                                    <option value="none" {{ $filters['application_status'] === "none" ? 'selected' : ''}}>----</option>
+                                    <option value="active" {{ $filters['application_status'] === "active" ? 'selected' : ''}}>Active</option>
+                                    <option value="inactive" {{ $filters['application_status'] === "inactive" ? 'selected' : ''}}>Inactive</option>
+                                </select>
                             </div>
-                        @endif
-                        <form method="GET" action="/admin/users" class="form">
-                            <div class="form-group row float-right">
-                                <input type="text" name="query" class="form-control col-md-8"/>
-                                <button class="ml-2 btn btn-primary">Search</input>
+                            <div class="form-group float-left mr-2">
+                                <label for="filter[med_cert_status]">Med Cert Status</label>
+                                <select class="form-control" name="filters[med_cert_status]">
+                                    <option value="none" {{ $filters['med_cert_status'] === "none" ? 'selected' : ''}} >----</option>
+                                    <option value="pending" {{ $filters['med_cert_status'] === "pending" ? 'selected' : ''}}>Pending</option>
+                                    <option value="approved" {{ $filters['med_cert_status'] === "approved" ? 'selected' : ''}}>Approved</option>
+                                    <option value="rejected" {{ $filters['med_cert_status'] === "rejected" ? 'selected' : ''}}  >Rejected</option>
+                                </select>
                             </div>
-                            @csrf
+                            <div class="input-group float-right">
+                                <input type="text" class="form-control" name="search" placeholder="Search..." value="{{ request('search') }}">
+                                <span class="input-group-append">
+                                    <button class="btn btn-secondary" type="submit">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
+                            </div>
                         </form>
-                        <table class="table">
-                            <thead>
-                                <th>First Name</th>
-                                <th>Last Name</th>
-                                <th>Course</th>
-                                <th>Facebook Profile</th>
-                                <th>Occupation</th>
-                                <th>Enrolled?</th>
-                                <th>Medcert Status</th>
-                                <th>Nickname</th>
-                                <th>Actions</th>
-                            </thead>
-                            <tbody>
-                                @foreach($users as $user)
+                        <br>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
                                     <tr>
-                                        <td> {{ $user->first_name}} </td>
-                                        <td> {{ $user->last_name}} </td>
-                                        <td> {{ $user->course}} </td>
-                                        <td> <a href="{{ $user->facebook_profile }}" target="_blank">View</a></td>
-                                        <td> {{ $user->occupation }}</td>
-                                        <td> {{ $user->is_enrolled ? "Yes" : "No" }}</td>
-                                        <td> {{ $user->med_cert_status }}</td>
-                                        <th> {{ $user->nick_name }} </th>
+                                        <th>First Name</th><th>Last Name</th><th>Email</th><th>Contact Number</th><th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($users as $item)
+                                    <tr>
+                                        <td>{{ $item->first_name }}</td><td>{{ $item->last_name }}</td><td>{{ $item->email }}</td><td>{{ $item->contact_number }}</td>
                                         <td>
-                                            <a class="btn btn-success"href="/admin/user/approve/{{ $user->id }}">Approve</a>
-                                            <a class="btn btn-danger" href="/admin/user/reject/{{$user->id}}">Reject</a>
-                                            <a class="btn btn-primary" href="/user/medcert/{{ $user->id }}">View </a>
+                                            <a href="{{ url('/admin/users/' . $item->id) }}" title="View user"><button class="btn btn-info btn-sm"><i class="fa fa-eye" aria-hidden="true"></i> View</button></a>
+                                            <a href="{{ url('/admin/users/' . $item->id . '/edit') }}" title="Edit user"><button class="btn btn-primary btn-sm"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit</button></a>
+
+                                            <form method="POST" action="{{ url('/admin/users' . '/' . $item->id) }}" accept-charset="UTF-8" style="display:inline">
+                                                {{ method_field('DELETE') }}
+                                                {{ csrf_field() }}
+                                                <button type="submit" class="btn btn-danger btn-sm" title="Delete user" onclick="return confirm(&quot;Confirm delete?&quot;)"><i class="fa fa-trash-o" aria-hidden="true"></i> Delete</button>
+                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach
-                            </tbody>
-                            {{ $users->appends(['query' => $query])->links() }}
-                        </table>
+                                </tbody>
+                            </table>
+                            <div class="pagination-wrapper"> {!! $users->appends(['search' => Request::get('search')])->render() !!} </div>
+                        </div>
                     </div>
                 </div>
             </div>

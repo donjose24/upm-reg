@@ -15,7 +15,7 @@ class AddBlobImageToUsersTable extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('med_cert_status')->nullable();
-            DB::statement("ALTER TABLE users ADD med_cert_image BYTEA");
+            DB::statement("ALTER TABLE users ADD med_cert_image MEDIUMBLOB");
         });
     }
 
