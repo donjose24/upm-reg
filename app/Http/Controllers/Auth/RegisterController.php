@@ -57,6 +57,7 @@ class RegisterController extends Controller
             'last_name' => ['required', 'string'],
             'contact_number' => ['required', 'string'],
             'birthdate' => ['required', 'date'],
+            'terms_and_conditions' => ['required'],
         ]);
     }
 

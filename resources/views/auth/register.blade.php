@@ -190,12 +190,18 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <div class="col-md-2">
-                        </div>
-                        <div class="col-md-6">
-                            By clicking "Register" you have read and understood the PITHAYA, agree to all that is
+                        <div class="col-md-12">
+                            @error('terms_and_conditions')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                            <input type="checkbox" name="terms_and_conditions">
+                            I have read and understood the PITHAYA, agree to all that is
                             stated in it. I am also aware that my failure to adhere to the stipulations of the PITHAYA can be grounds for my
                             my non-acceptance into the organization</em>
+
+
                         </div>
 
                     </div>
