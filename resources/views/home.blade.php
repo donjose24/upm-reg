@@ -27,7 +27,7 @@
                                     <small><em>Click on your avatar to update</em></small>
                                 </div>
                                 <div class="form-group row mt-2">
-                                    <div class="col-md-6">
+                                    <div class="col-md-5">
                                         First Name:
                                     </div>
                                     <div class="col-md-6">
@@ -35,7 +35,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-5">
                                         Last Name:
                                     </div>
                                     <div class="col-md-6">
@@ -43,19 +43,67 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-5">
                                         Email Address:
                                     </div>
                                     <div class="col-md-6">
                                         <b>{{ Auth::user()->email }}</b>
                                     </div>
                                 </div>
+                                <div class="form-group row mt-5">
+                                    <div class="col-md-12">
+                                        <h4>Requirements Status</h4>
+                                    </div>
+                                </div>
                                 <div class="form-group row">
                                     <div class="col-md-6">
-                                        Application Status:
+                                        Photo
                                     </div>
                                     <div class="col-md-6">
-                                        <b>{{ ucwords(Auth::user()->application_status) }}</b>
+                                        @php
+                                            if (Auth::user()->avatar == '') {
+                                                echo '<span style="color:red">Pending</span>';
+                                            } else {
+                                                echo '<span style="color:green">Submited</span>';
+                                            }
+                                        @endphp
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-6">
+                                        Medical Certificate
+                                    </div>
+                                    <div class="col-md-6">
+                                        @php
+                                            switch (Auth::user()->med_cert_status) {
+                                                case "approved":
+                                                    echo '<span style="color:green">Approved</span>';
+                                                    break;
+                                                case "pending":
+                                                    echo '<span style="color:yellow">Pending</span>';
+                                                    break;
+                                                case "rejected":
+                                                    echo '<span style="color:red">Rejected</span>';
+                                                    break;
+                                                default:
+                                                    echo '<span style="color:red">Not Yet Submited</span>';
+                                                    break;
+                                            }
+                                        @endphp
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-6">
+                                        Additional Information
+                                    </div>
+                                    <div class="col-md-6">
+                                        @php
+                                            if (Auth::user()->ice_name) {
+                                                echo '<span style="color:green">Submitted</span>';
+                                            } else {
+                                                echo '<span style="color:red">Pending</span>';
+                                            }
+                                        @endphp
                                     </div>
                                 </div>
                             </div>
@@ -74,6 +122,19 @@
                                     @foreach($announcements as $announcement)
                                         <li>{{ $announcement->description }}</li>
                                     @endforeach
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 mt-2">
+                        <div class="card">
+                            <div class="card-header">Downloadable Documents</div>
+                            <div class="card-body">
+                                <ul>
+                                    <li><a href="/medical-clearance-form.docx" download>Medical Clearance Form</a></li>
+                                    <li><a href="/pithaya.pdf" download>Pithaya</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -105,15 +166,17 @@
                                         @endif
                                     </div>
 
-                                   <form method="POST" action="{{ route('upload') }}" enctype=multipart/form-data class="update-form">
-                                        @csrf
-                                        <div class="form-group">
-                                            <input type="file" class="form-control-file" name="med_cert">
-                                        </div>
-                                        <button type="submit" class="btn btn-primary">
-                                            {{ __('Upload / Update') }}
-                                        </button>
-                                    </form>
+                                    @if (Auth::user()->med_cert_status != 'approved')
+                                        <form method="POST" action="{{ route('upload') }}" enctype=multipart/form-data class="update-form">
+                                            @csrf
+                                            <div class="form-group">
+                                                <input type="file" class="form-control-file" name="med_cert">
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">
+                                                {{ __('Upload / Update') }}
+                                            </button>
+                                        </form>
+                                    @endif
                             </div>
                         </div>
                     </div>
