@@ -17,7 +17,7 @@
                                 <div class="img-holder">
                                     <form action="/avatar" method="POST" class="avatar-form" enctype="multipart/form-data">
                                         @csrf
-                                        <input type="file" name="avatar" class="avatar-uploader">
+                                        <input type="file" name="avatar" class="avatar-uploader" accept="image/x-png,image/gif,image/jpeg">
                                         @if (Auth::user()->avatar)
                                             <img src="{{ Auth::user()->avatar }}" class="avatar rounded-circle">
                                         @else
@@ -62,7 +62,7 @@
                                     <div class="col-md-6">
                                         @php
                                             if (Auth::user()->avatar == '') {
-                                                echo '<span style="color:red">Pending</span>';
+                                                echo '<span style="color:red">Not yet submitted</span>';
                                             } else {
                                                 echo '<span style="color:green">Submited</span>';
                                             }
@@ -80,7 +80,7 @@
                                                     echo '<span style="color:green">Approved</span>';
                                                     break;
                                                 case "pending":
-                                                    echo '<span style="color:yellow">Pending</span>';
+                                                    echo '<span style="color:blue">Pending</span>';
                                                     break;
                                                 case "rejected":
                                                     echo '<span style="color:red">Rejected</span>';
@@ -101,7 +101,7 @@
                                             if (Auth::user()->ice_name) {
                                                 echo '<span style="color:green">Submitted</span>';
                                             } else {
-                                                echo '<span style="color:red">Pending</span>';
+                                                echo '<span style="color:red">Not yet submitted</span>';
                                             }
                                         @endphp
                                     </div>
@@ -147,10 +147,12 @@
                         <div class="card">
                             <div class="card-header">Medical Certificate</div>
                             <div class="card-body">
-                                @if (session('status'))
-                                    <div class="alert alert-success" role="alert">
-                                        {{ session('status') }}
-                                    </div>
+                                @if ($errors->any())
+                                    <ul class="alert alert-danger">
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
                                 @endif
                                  <h5>Medcert Status: {{Auth::user()->med_cert_status ? ucwords(Auth::user()->med_cert_status) : "Not yet submitted" }} </h5>
 
@@ -170,7 +172,7 @@
                                         <form method="POST" action="{{ route('upload') }}" enctype=multipart/form-data class="update-form">
                                             @csrf
                                             <div class="form-group">
-                                                <input type="file" class="form-control-file" name="med_cert">
+                                                <input type="file" class="form-control-file" name="med_cert" accept="image/x-png,image/gif,image/jpeg">
                                             </div>
                                             <button type="submit" class="btn btn-primary">
                                                 {{ __('Upload / Update') }}

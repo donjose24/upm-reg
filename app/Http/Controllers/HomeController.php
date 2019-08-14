@@ -41,6 +41,9 @@ class HomeController extends Controller
      */
     public function saveMedCert(Request $request)
     {
+        $request->validate([
+            'med_cert' => 'required|image',
+        ]);
         $user = Auth::user();
 
         $medCert = $request->file('med_cert');
