@@ -112,7 +112,7 @@
                                     <p class="mt-5 alert alert-success">
                                         Congratulations! You've accomplished all the online requirements to
                                         be considered a UPM batch 2019 applicant! Don't forget to settle your
-                                        application fee to complete your application
+                                        application fee to complete your application.
                                     </p>
                                 @endif
                             </div>
