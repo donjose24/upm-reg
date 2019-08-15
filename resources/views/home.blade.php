@@ -50,32 +50,33 @@
                                         <b>{{ Auth::user()->email }}</b>
                                     </div>
                                 </div>
-                                <div class="form-group row mt-5">
-                                    <div class="col-md-12">
-                                        <h4>Requirements Status</h4>
+                                <fieldset class="requirement-status mt-2">
+                                    <div class="form-group row">
+                                        <div class="col-md-12">
+                                            <legend><h4>Requirements Status</h4></legend>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group row">
-                                    <div class="col-md-6">
-                                        Photo
+                                    <div class="form-group row">
+                                        <div class="col-md-6">
+                                            Photo
+                                        </div>
+                                        <div class="col-md-6">
+                                            @php
+                                                if (Auth::user()->avatar == '') {
+                                                    echo '<span style="color:red">Not yet submitted</span>';
+                                                } else {
+                                                    echo '<span style="color:green">Submited</span>';
+                                                }
+                                            @endphp
+                                        </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        @php
-                                            if (Auth::user()->avatar == '') {
-                                                echo '<span style="color:red">Not yet submitted</span>';
-                                            } else {
-                                                echo '<span style="color:green">Submited</span>';
-                                            }
-                                        @endphp
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <div class="col-md-6">
-                                        Medical Certificate
-                                    </div>
-                                    <div class="col-md-6">
-                                        @php
-                                            switch (Auth::user()->med_cert_status) {
+                                    <div class="form-group row">
+                                        <div class="col-md-6">
+                                            Medical Certificate
+                                        </div>
+                                        <div class="col-md-6">
+                                            @php
+                                                switch (Auth::user()->med_cert_status) {
                                                 case "approved":
                                                     echo '<span style="color:green">Approved</span>';
                                                     break;
@@ -88,41 +89,32 @@
                                                 default:
                                                     echo '<span style="color:red">Not Yet Submited</span>';
                                                     break;
-                                            }
-                                        @endphp
+                                                }
+                                            @endphp
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="form-group row">
-                                    <div class="col-md-6">
-                                        Additional Information
+                                    <div class="form-group row">
+                                        <div class="col-md-6">
+                                            Additional Information
+                                        </div>
+                                        <div class="col-md-6">
+                                            @php
+                                                if (Auth::user()->ice_name) {
+                                                    echo '<span style="color:green">Submitted</span>';
+                                                } else {
+                                                    echo '<span style="color:red">Not yet submitted</span>';
+                                                }
+                                            @endphp
+                                        </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        @php
-                                            if (Auth::user()->ice_name) {
-                                                echo '<span style="color:green">Submitted</span>';
-                                            } else {
-                                                echo '<span style="color:red">Not yet submitted</span>';
-                                            }
-                                        @endphp
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-12 mt-2">
-                        <div class="card">
-                            <div class="card-header">Announcements</div>
-                            <div class="card-body">
-                                <ul>
-                                    @if (count($announcements) == 0)
-                                        <h4>No announcements for now!</h4>
-                                    @endif
-                                    @foreach($announcements as $announcement)
-                                        <li>{{ $announcement->description }}</li>
-                                    @endforeach
-                                </ul>
+                                </fieldset>
+                                @if (Auth::user()->ice_name && Auth::user()->med_cert_status && Auth::user() && Auth::user()->avatar != '')
+                                    <p class="mt-5 alert alert-success">
+                                        Congratulations! You've accomplished all the online requirements to
+                                        be considered a UPM batch 2019 applicant! Don't forget to settle your
+                                        application fee to complete your application
+                                    </p>
+                                @endif
                             </div>
                         </div>
                     </div>
