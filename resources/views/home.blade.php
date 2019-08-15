@@ -122,6 +122,43 @@
                 <div class="row">
                     <div class="col-md-12 mt-2">
                         <div class="card">
+                            <div class="card-header">Announcement</div>
+                            <div class="card-body">
+                                <ul>
+                                    <h6>Welcome! You're on your way to becoming a member of the UP Mountaineers.</h6>
+
+                                    <p>Follow these steps to complete your registration:</p>
+                                    <ul>
+                                        <li>Upload your profile photo. Make sure that your face can be easily recognized.</li>
+                                        <li>Download and accomplish the medical clearance form. Take a photo of it and upload.</li>
+                                        <li>Submit all other additional information.</li>
+                                        <li>Check the status of all online requirements.</li>
+                                        <li> Once completed, settle the app fee:</li>
+                                    </ul>
+                                    <p class="mt-2">
+                                    Php 500 - for <b>students</b> <br>
+                                    Php 1800 - for <b>non-students</b>
+                                    </p>
+
+                                    <h6>Pay via</h6>
+                                    <h6>UPM BPI</h6>
+                                    <h6>Account name: UP Mountaineers Inc.</h6>
+                                    <h6>Account number: 4483039145</h6>
+                                    <p>
+                                        (Send deposit slip / proof of payment to fincom@upmountaineers.org.
+                                        Or through any EB member.
+                                    </p>
+
+                                    <h6><b>Attend the rest of the app activities and don't be late!</b></h6>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 mt-2">
+                        <div class="card">
                             <div class="card-header">Downloadable Documents</div>
                             <div class="card-body">
                                 <ul>
@@ -146,31 +183,31 @@
                                         @endforeach
                                     </ul>
                                 @endif
-                                 <h5>Medcert Status: {{Auth::user()->med_cert_status ? ucwords(Auth::user()->med_cert_status) : "Not yet submitted" }} </h5>
+                                <h5>Medcert Status: {{Auth::user()->med_cert_status ? ucwords(Auth::user()->med_cert_status) : "Not yet submitted" }} </h5>
 
-                                 <div class="text-center">
-                                      @if (Auth::user()->med_cert_status != '')
-                                          <img src="/user/medcert/{{Auth::user()->id}}" class="med-cert"/>
-                                          <a href="/user/medcert/{{Auth::user()->id}}" target="_blank"> View full photo</a>
-                                      @endif
-
-
-                                        @if (Auth::user()->med_cert_upload_date)
-                                            <p>Date Uploaded: {{ Auth::user()->med_cert_upload_date }}</p>
-                                        @endif
-                                    </div>
-
-                                    @if (Auth::user()->med_cert_status != 'approved')
-                                        <form method="POST" action="{{ route('upload') }}" enctype=multipart/form-data class="update-form">
-                                            @csrf
-                                            <div class="form-group">
-                                                <input type="file" class="form-control-file" name="med_cert" accept="image/x-png,image/gif,image/jpeg">
-                                            </div>
-                                            <button type="submit" class="btn btn-primary">
-                                                {{ __('Upload / Update') }}
-                                            </button>
-                                        </form>
+                                <div class="text-center">
+                                    @if (Auth::user()->med_cert_status != '')
+                                        <img src="/user/medcert/{{Auth::user()->id}}" class="med-cert"/>
+                                        <a href="/user/medcert/{{Auth::user()->id}}" target="_blank"> View full photo</a>
                                     @endif
+
+
+                                    @if (Auth::user()->med_cert_upload_date)
+                                        <p>Date Uploaded: {{ Auth::user()->med_cert_upload_date }}</p>
+                                    @endif
+                                </div>
+
+                                @if (Auth::user()->med_cert_status != 'approved')
+                                    <form method="POST" action="{{ route('upload') }}" enctype=multipart/form-data class="update-form">
+                                        @csrf
+                                        <div class="form-group">
+                                            <input type="file" class="form-control-file" name="med_cert" accept="image/x-png,image/gif,image/jpeg">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">
+                                            {{ __('Upload / Update') }}
+                                        </button>
+                                    </form>
+                                @endif
                             </div>
                         </div>
                     </div>
