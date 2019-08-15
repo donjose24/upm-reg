@@ -108,7 +108,7 @@
                                         </div>
                                     </div>
                                 </fieldset>
-                                @if (Auth::user()->ice_name && Auth::user()->med_cert_status && Auth::user() && Auth::user()->avatar != '')
+                                @if (Auth::user()->ice_name && Auth::user()->med_cert_status == "approved" && Auth::user() && Auth::user()->avatar != '')
                                     <p class="mt-5 alert alert-success">
                                         Congratulations! You've accomplished all the online requirements to
                                         be considered a UPM batch 2019 applicant! Don't forget to settle your
