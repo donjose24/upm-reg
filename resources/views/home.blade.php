@@ -164,6 +164,7 @@
                                 <ul>
                                     <li><a href="/medical-clearance-form.docx" download>Medical Clearance Form</a></li>
                                     <li><a href="/pithaya.pdf" download>Pithaya</a></li>
+                                    <li a href="/schedule.jpg">2019 Schedule</li>
                                 </ul>
                             </div>
                         </div>
