@@ -18,6 +18,16 @@ class UserController extends Controller
     ];
 
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\View\View
@@ -25,7 +35,7 @@ class UserController extends Controller
     public function index(Request $request)
     {
         $keyword = $request->get('search');
-        $perPage = 25;
+        $perPage = 10;
 
         $query = User::select('*');
 
@@ -149,7 +159,7 @@ class UserController extends Controller
         $user = User::find($id);
         $user->med_cert_status="approved";
         $user->save();
-        Session::flash('success', 'Medical Certificate Updated');
+        Session::flash('success', 'Medical certificate updated');
         return redirect()->back();
     }
 
@@ -163,7 +173,7 @@ class UserController extends Controller
         $user = User::find($id);
         $user->med_cert_status="rejected";
         $user->save();
-        Session::flash('success', 'Medical Certificate Status Updated');
+        Session::flash('success', 'Medical certificate status updated');
         return redirect()->back();
     }
 }
