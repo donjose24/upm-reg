@@ -52,7 +52,7 @@ class UserController extends Controller
         User::where('id', Auth::user()->id)
             ->update($input);
 
-        Session::flash('success', 'Additional Information Added');
+        Session::flash('success', 'Additional information added');
         return redirect()->back();
     }
 }
