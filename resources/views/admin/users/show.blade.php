@@ -64,6 +64,38 @@
                                         <b>{{ $user->email }}</b>
                                     </div>
                                 </div>
+                                <div class="form-group row">
+                                    <div class="col-md-6">
+                                        Occupation
+                                    </div>
+                                    <div class="col-md-6">
+                                        <b>{{ $user->occupation }}</b>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-6">
+                                        Course
+                                    </div>
+                                    <div class="col-md-6">
+                                        <b>{{ $user->course }}</b>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-6">
+                                        Birthdate
+                                    </div>
+                                    <div class="col-md-6">
+                                        <b>{{ $user->birthdate }}</b>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-6">
+                                        Contact Number
+                                    </div>
+                                    <div class="col-md-6">
+                                        <b>{{ $user->contact_number }}</b>
+                                    </div>
+                                </div>
                                 <fieldset class="requirement-status mt-2">
                                     <div class="form-group row">
                                         <div class="col-md-12">
