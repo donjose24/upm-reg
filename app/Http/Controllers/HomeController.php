@@ -43,12 +43,19 @@ class HomeController extends Controller
     {
         $request->validate([
             'med_cert' => 'required|image',
+            'med_cert_page_2' => 'required|image',
         ]);
+
         $user = Auth::user();
 
         $medCert = $request->file('med_cert');
         $contents = $medCert->openFile()->fread($medCert->getSize());
         $user->med_cert_image = $contents;
+        //for page 2
+        $medCert = $request->file('med_cert_page_2');
+        $contents = $medCert->openFile()->fread($medCert->getSize());
+        $user->med_cert_image_2 = $contents;
+
         $user->med_cert_status = 'pending';
         $user->med_cert_upload_date = now();
         $user->save();

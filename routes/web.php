@@ -27,3 +27,4 @@ Route::group(['prefix'=>'/admin'], function () {
 });
 
 Route::get('/user/medcert/{id}', 'AssetController@serveImage');
+Route::get('/user/medcert/two/{id}', 'AssetController@serveImagePageTwo');

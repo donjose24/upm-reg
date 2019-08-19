@@ -187,12 +187,6 @@
                                 <h5>Medcert Status: {{Auth::user()->med_cert_status ? ucwords(Auth::user()->med_cert_status) : "Not yet submitted" }} </h5>
 
                                 <div class="text-center">
-                                    @if (Auth::user()->med_cert_status != '')
-                                        <img src="/user/medcert/{{Auth::user()->id}}" class="med-cert"/>
-                                        <a href="/user/medcert/{{Auth::user()->id}}" target="_blank"> View full photo</a>
-                                    @endif
-
-
                                     @if (Auth::user()->med_cert_upload_date)
                                         <p>Date Uploaded: {{ Auth::user()->med_cert_upload_date }}</p>
                                     @endif
@@ -201,9 +195,29 @@
                                 @if (Auth::user()->med_cert_status != 'approved')
                                     <form method="POST" action="{{ route('upload') }}" enctype=multipart/form-data class="update-form">
                                         @csrf
-                                        <div class="form-group">
-                                            <input type="file" class="form-control-file" name="med_cert" accept="image/x-png,image/gif,image/jpeg">
+                                        <div class="row">
+                                            <div class="form-group col-md-6">
+                                                @if (Auth::user()->med_cert_status != '')
+                                                    <img src="/user/medcert/{{Auth::user()->id}}" class="med-cert"/>
+                                                    <a class="block" href="/user/medcert/{{Auth::user()->id}}" target="_blank">View full photo</a>
+                                                @endif
+                                                <div class="form-group">
+                                                    <label for="med_cert">Page 1</label>
+                                                    <input type="file" class="form-control-file" name="med_cert" accept="image/x-png,image/gif,image/jpeg">
+                                                </div>
+                                            </div>
+                                            <div class="form-group col-md-6">
+                                                @if (Auth::user()->med_cert_status != '')
+                                                    <img src="/user/medcert/two/{{Auth::user()->id}}" class="med-cert"/>
+                                                    <a class="block" href="/user/medcert/two/{{Auth::user()->id}}" target="_blank">View full photo</a>
+                                                @endif
+                                                <div class="form-group">
+                                                    <label for="med_cert_page_2">Page 2</label>
+                                                    <input class=""type="file" class="form-control-file" name="med_cert_page_2" accept="image/x-png,image/gif,image/jpeg">
+                                                </div>
+                                            </div>
                                         </div>
+
                                         <button type="submit" class="btn btn-primary">
                                             {{ __('Upload / Update') }}
                                         </button>
